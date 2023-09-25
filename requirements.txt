@@ -1,0 +1,3 @@
+homeassistant>=2021.12.0
+pykumo==0.3.7
+pre_commit==3.4.0
