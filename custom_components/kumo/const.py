@@ -14,7 +14,7 @@ KUMO_CONFIG_CACHE = "kumo_cache.json"
 CONF_PREFER_CACHE = "prefer_cache"
 CONF_CONNECT_TIMEOUT = "connect_timeout"
 CONF_RESPONSE_TIMEOUT = "response_timeout"
-MAX_AVAILABILITY_TRIES = 3 # How many times we will attempt to update from a kumo before marking it unavailable
+MAX_AVAILABILITY_TRIES = 3  # How many times we will attempt to update from a kumo before marking it unavailable
 
 PLATFORMS: Final = [CLIMATE_DOMAIN, SENSOR_DOMAIN]
 

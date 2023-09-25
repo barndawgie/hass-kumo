@@ -17,15 +17,28 @@ except ImportError:
 
 import homeassistant.helpers.config_validation as cv
 from homeassistant.components.climate.const import (
-    ATTR_HVAC_MODE, ATTR_TARGET_TEMP_HIGH, ATTR_TARGET_TEMP_LOW,
-    CURRENT_HVAC_COOL, CURRENT_HVAC_DRY, CURRENT_HVAC_FAN, CURRENT_HVAC_HEAT,
-    CURRENT_HVAC_IDLE, CURRENT_HVAC_OFF, HVAC_MODE_COOL, HVAC_MODE_DRY,
-    HVAC_MODE_FAN_ONLY, HVAC_MODE_HEAT, HVAC_MODE_HEAT_COOL, HVAC_MODE_OFF,
-    SUPPORT_FAN_MODE, SUPPORT_SWING_MODE, SUPPORT_TARGET_TEMPERATURE,
-    SUPPORT_TARGET_TEMPERATURE_RANGE)
+    ATTR_HVAC_MODE,
+    ATTR_TARGET_TEMP_HIGH,
+    ATTR_TARGET_TEMP_LOW,
+    CURRENT_HVAC_COOL,
+    CURRENT_HVAC_DRY,
+    CURRENT_HVAC_FAN,
+    CURRENT_HVAC_HEAT,
+    CURRENT_HVAC_IDLE,
+    CURRENT_HVAC_OFF,
+    HVAC_MODE_COOL,
+    HVAC_MODE_DRY,
+    HVAC_MODE_FAN_ONLY,
+    HVAC_MODE_HEAT,
+    HVAC_MODE_HEAT_COOL,
+    HVAC_MODE_OFF,
+    SUPPORT_FAN_MODE,
+    SUPPORT_SWING_MODE,
+    SUPPORT_TARGET_TEMPERATURE,
+    SUPPORT_TARGET_TEMPERATURE_RANGE,
+)
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (ATTR_BATTERY_LEVEL, ATTR_TEMPERATURE,
-                                 TEMP_CELSIUS)
+from homeassistant.const import ATTR_BATTERY_LEVEL, ATTR_TEMPERATURE, TEMP_CELSIUS
 from homeassistant.helpers.typing import HomeAssistantType
 
 from .const import KUMO_DATA, KUMO_DATA_COORDINATORS
@@ -89,7 +102,9 @@ KUMO_STATE_TO_HA_ACTION = {
 }
 
 
-async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry, async_add_entities):
+async def async_setup_entry(
+    hass: HomeAssistantType, entry: ConfigEntry, async_add_entities
+):
     """Set up the Kumo thermostats."""
     account = hass.data[DOMAIN][entry.entry_id][KUMO_DATA].get_account()
     coordinators = hass.data[DOMAIN][entry.entry_id][KUMO_DATA_COORDINATORS]
@@ -103,6 +118,7 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry, async_a
     if not entities:
         raise ConfigEntryNotReady("Kumo integration found no indoor units")
     async_add_entities(entities, True)
+
 
 class KumoThermostat(CoordinatedKumoEntitty, ClimateEntity):
     """Representation of a Kumo Thermostat device."""

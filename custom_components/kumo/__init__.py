@@ -67,6 +67,7 @@ class KumoCloudSettings:
         """Retrieve raw JSON config from account."""
         return self._account.get_raw_json()
 
+
 async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry):
     """Setup Kumo Entry"""
     hass.data.setdefault(DOMAIN, {})
@@ -82,32 +83,38 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry):
         account = await async_kumo_setup(hass, not prefer_cache, username, password)
 
     if account:
-        hass.data[DOMAIN][entry.entry_id][KUMO_DATA] = KumoCloudSettings(account, entry.data, entry.options)
+        hass.data[DOMAIN][entry.entry_id][KUMO_DATA] = KumoCloudSettings(
+            account, entry.data, entry.options
+        )
 
         # Create a data coordinator for each Kumo device
         hass.data[DOMAIN][entry.entry_id].setdefault(KUMO_DATA_COORDINATORS, {})
         coordinators = hass.data[DOMAIN][entry.entry_id][KUMO_DATA_COORDINATORS]
-        connect_timeout = float(
-            entry.options.get(CONF_CONNECT_TIMEOUT, "1.2")
-        )
-        response_timeout = float(
-            entry.options.get(CONF_RESPONSE_TIMEOUT, "8")
-        )
+        connect_timeout = float(entry.options.get(CONF_CONNECT_TIMEOUT, "1.2"))
+        response_timeout = float(entry.options.get(CONF_RESPONSE_TIMEOUT, "8"))
         timeouts = (connect_timeout, response_timeout)
-        pykumos = await hass.async_add_executor_job(account.make_pykumos, timeouts, True)
+        pykumos = await hass.async_add_executor_job(
+            account.make_pykumos, timeouts, True
+        )
         for device in pykumos.values():
             if device.get_serial() not in coordinators:
-                coordinators[device.get_serial()] = KumoDataUpdateCoordinator(hass, device)
+                coordinators[device.get_serial()] = KumoDataUpdateCoordinator(
+                    hass, device
+                )
 
         for platform in PLATFORMS:
             hass.async_create_task(
-                hass.config_entries.async_forward_entry_setup(entry, platform))
+                hass.config_entries.async_forward_entry_setup(entry, platform)
+            )
         return True
 
     _LOGGER.warning("Could not load config from KumoCloud server or cache")
     return False
 
-async def async_kumo_setup(hass: HomeAssistantType, prefer_cache: bool, username: str, password: str) -> Optional[pykumo.KumoCloudAccount]:
+
+async def async_kumo_setup(
+    hass: HomeAssistantType, prefer_cache: bool, username: str, password: str
+) -> Optional[pykumo.KumoCloudAccount]:
     """Attempt to load data from cache or Kumo Cloud"""
     if prefer_cache:
         cached_json = await hass.async_add_executor_job(
@@ -130,12 +137,15 @@ async def async_kumo_setup(hass: HomeAssistantType, prefer_cache: bool, username
 
         return account
 
+
 async def async_unload_entry(hass: HomeAssistantType, entry: ConfigEntry):
     """Unload Entry"""
 
     for platform in PLATFORMS:
         all_ok = True
-        unload_ok = await hass.config_entries.async_forward_entry_unload(entry, platform)
+        unload_ok = await hass.config_entries.async_forward_entry_unload(
+            entry, platform
+        )
         if not unload_ok:
             all_ok = False
     return all_ok

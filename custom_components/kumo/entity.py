@@ -11,10 +11,7 @@ from .coordinator import KumoDataUpdateCoordinator
 class CoordinatedKumoEntitty(CoordinatorEntity):
     """Defines a base Kumo entity."""
 
-    def __init__(
-        self,
-        coordinator: KumoDataUpdateCoordinator
-    ) -> None:
+    def __init__(self, coordinator: KumoDataUpdateCoordinator) -> None:
         """Initialize the Kumo entity."""
         super().__init__(coordinator)
         self._coordinator = coordinator
