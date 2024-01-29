@@ -8,5 +8,7 @@
     "codeowners": [ "@dlarrick" ],
     "requirements": ["pykumo==0.3.8"],
     "version": "0.3.10",
-    "homeassistant": "2021.12.0"
+    "homeassistant": "2021.12.0",
+    "iot_class": "local_polling",
+    "integration_type": "hub"
 }
