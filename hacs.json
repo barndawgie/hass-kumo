@@ -1,4 +1,5 @@
-{ "name": "Mitsubishi Kumo Cloud",
+{
+  "name": "Mitsubishi Kumo Cloud",
   "render_readme": true,
   "homeassistant": "2021.12.0"
 }
